@@ -47,3 +47,44 @@ jobs:
           name: ScrollBot-Windows
           path: ScrollBot-Windows.zip
           retention-days: 30
+
+  build-listbot-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Download bundled Chromium
+        env:
+          PLAYWRIGHT_BROWSERS_PATH: ${{ github.workspace }}\build\browser
+        run: python -m playwright install chromium
+
+      - name: Build with PyInstaller (ListBot)
+        run: pyinstaller --noconfirm --distpath dist --workpath build\_pyi_work_listbot build\ListBot.spec
+
+      - name: Bundle Chromium next to exe
+        shell: cmd
+        run: xcopy /E /I /Y build\browser dist\ListBot\browser
+
+      - name: Show output tree (debug)
+        shell: cmd
+        run: dir dist\ListBot
+
+      - name: Zip distribution
+        run: Compress-Archive -Path dist\ListBot\* -DestinationPath ListBot-Windows.zip -Force
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ListBot-Windows
+          path: ListBot-Windows.zip
+          retention-days: 30

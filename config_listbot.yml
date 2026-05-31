@@ -1,0 +1,78 @@
+# ListBot（出品Bot）設定ファイル。サイト固有情報はすべてここで管理（コード直書きしない）。
+# ScrollBot の config.yml とは別ファイル。一般利用者は編集不要。
+
+active_site: fchike          # 使用するサイト定義（sites: 配下）
+profile: account_001         # 使用プロファイル
+parallel: true               # 複数日付を複数タブで同時出品（false で1タブ順次）
+max_parallel_tabs: 5         # 同時に開く最大タブ数（要望: 5日分など）
+keep_open: true              # 処理後もブラウザを閉じない（アプリを閉じても残る）
+debug_port: 9344             # ListBot 用デバッグポート（ScrollBot=9333 と別）
+
+browser:
+  headless: false
+  viewport:
+    width: 1280
+    height: 720
+  user_agent: ""
+
+scroll:                      # ScrollBot と同じ「最下部まで」設定
+  step_px: 600
+  wait_ms: 800
+  settle_ms: 1200
+  stable_rounds: 6
+  max_steps: 200
+
+# 連番グルーピング（GUIで上書き可。詳細は grouping.py のコメント参照）
+grouping:
+  mode: together             # together=連続席はまとめて連番出品（既定） / max_size=分割
+  max_group_size: 2          # max_size モードのグループ最大席数
+  remainder: single          # 端数の扱い: single=単独出品 / merge=直前に足して3連番化
+  partition_overrides: {}    # 連番数ごとの明示指定。例: {3: [2,1], 4: [2,2], 8: [4,4]}
+  single_as_bara_ok: true    # 1席は「バラ売り可」で出品
+
+# 出品の動作
+listing:
+  price_strategy: max        # 価格戦略（max=最高額。要件固定）
+  confirm_mode: false        # true=最終「出品する」直前で停止（誤出品防止・テスト用）
+  between_actions_ms: 400    # 各操作間の待機(ms)
+
+sites:
+  fchike:
+    name: "Fチケ シーズンシート 出品"
+    start_url: "https://ticket.fighters.co.jp/ticket/season"
+    target_url: "https://ticket.fighters.co.jp/ticket/season"
+    login_required_selector: "button:text-is('シーズンシート')"
+    success_selector: "text=さん"
+    login_steps:
+      - { action: click, selector: "button:text-is('シーズンシート')" }
+      - { action: fill,  selector: "input:not([type='password']):visible", value_from: LOGIN_ID }
+      - { action: fill,  selector: "input[type='password']:visible",       value_from: LOGIN_PASSWORD }
+      - { action: click, selector: "button:text-is('ログイン')" }
+
+    # ---- 出品フローのセレクタ（実DOM捕捉済み 2026-05-31）-----------------
+    # 出品登録は【1ページで順次展開】: STEP1価格→次へ→STEP2バラ売り→次へ→STEP3確認→出品する
+    listing:
+      # シーズンページ: 試合カード（アコーディオン）と日付
+      game_item: "li.UITicketSliderPc_List_Item"          # 試合カード（48件・繰り返し）
+      game_date_text: ".UITicketAccordion_Button_Date_Day"  # カード内の日付（例 "9/17"）
+      accordion_button: "button.UITicketAccordion_Button"   # 試合カードを開くボタン
+      list_button_name: "出品する"                          # 未出品席の「出品する」(role=button 名)
+
+      # 出品登録ページ STEP1（座席選択・価格設定）
+      seat_item: ".UIResaleTicketCheckBox.PageResaleRegister_Step_Ticket_Item"  # 座席行
+      seat_check: "button.UIResaleTicketCheckBox_Check"     # 行内チェックボタン
+      seat_check_active_class: "_checked"                   # チェック済みを示すclass
+      seat_name: ".UISeatPrice_Name"                        # 座席ラベル（Sec.103 11列 5番）
+      price_note: ".UIPriceEditor_Left_Note"                # 価格範囲（¥3,600〜¥6,900）
+      price_input: "input.UIPriceEditor_Right_Input"        # 価格入力欄（入力後Tabで確定）
+
+      # 順次展開の操作ボタン（同一ボタンでラベルが 次へ→出品する に変化）
+      advance_button: "#PageResaleRegisterTranslateBtn"     # 「次へ」/「出品する」
+
+      # STEP2 出品方法（ラジオ name=isPackage）
+      bara_ok_text: "バラ売り可"     # 単独売り（1席）
+      bara_ng_text: "バラ売り不可"   # 連番まとめ売り
+
+      # STEP3 確認 → 最終出品
+      submit_text: "出品する"        # 最終ボタンのラベル（class _danger）
+      complete_marker: "出品完了"    # 出品完了画面の確認テキスト

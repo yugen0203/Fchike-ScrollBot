@@ -6,18 +6,27 @@ __pycache__/
 # ビルド生成物
 dist/
 build/_pyi_work/
+build/_pyi_work_listbot/
 build/browser/
 build/_devtest_*.py
 build/_devtest_*.json
+artifact_win/
+chrome_listbot.pid
+chrome.pid
 
 # 同梱Chromium(巨大・CIで都度DL)
 browser/
 
 # ユーザーデータ・機密（コミットしない）
 .env
+.env.listbot
 profiles/
+profiles_listbot/
 logs/
+logs_listbot/
 chrome_profile/
+chrome_profile_listbot/
+capture/
 
 # 録画・キャプチャ・大容量
 rec_frames/
