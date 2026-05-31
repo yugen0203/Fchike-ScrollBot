@@ -196,11 +196,12 @@ config_listbot.yml  サイト定義（出品フローのセレクタ・既定の
 - Windows: GitHub Actions `windows-build.yml` の `build-listbot-windows` ジョブ → `ListBot-Windows.zip`
 - ScrollBot のビルドとは独立（dist を共有・互いに上書きしない）。
 
-### 📘 操作マニュアル（初心者向け・画面図つき）
+### 📘 操作マニュアル（PDF・初心者向け・画面図つき）
 - 索引: [`docs/README.md`](docs/README.md)
-- 🪟 Windows用: [`docs/出品Bot_使い方_Windows.md`](docs/出品Bot_使い方_Windows.md)
-- 🍎 Mac用: [`docs/出品Bot_使い方_Mac.md`](docs/出品Bot_使い方_Mac.md)
-- 補足（設定・連番ルール）: [`docs/補足_設定と連番ルール.md`](docs/補足_設定と連番ルール.md)
+- 🪟 Windows用(PDF): [`docs/pdf/出品Bot_使い方_Windows.pdf`](docs/pdf/出品Bot_使い方_Windows.pdf)
+- 🍎 Mac用(PDF): [`docs/pdf/出品Bot_使い方_Mac.pdf`](docs/pdf/出品Bot_使い方_Mac.pdf)
+- 補足(PDF): [`docs/pdf/出品Bot_補足_設定と連番ルール.pdf`](docs/pdf/出品Bot_補足_設定と連番ルール.pdf)
+- 元のMarkdown: [Windows](docs/出品Bot_使い方_Windows.md) / [Mac](docs/出品Bot_使い方_Mac.md) / [補足](docs/補足_設定と連番ルール.md)
 
 ### 使い方（配布後）
 1. `出品Bot.app`（mac・初回は右クリック→開く）/ `ListBot.exe`（Win）を起動
