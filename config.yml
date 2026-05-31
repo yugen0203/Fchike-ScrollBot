@@ -1,0 +1,44 @@
+# ScrollBot 設定ファイル（サイト固有情報はすべてここで管理。コード修正不要で別サイト転用可）
+# 一般利用者はこのファイルを編集しなくても動作する。編集する場合のみ参照。
+
+active_site: fchike          # 使用するサイト定義のキー（sites: 配下）
+profile: account_001         # 使用プロファイル（profiles/<name>/storage_state.json）
+tabs: 1                      # 開くタブ数の既定値（GUIの「タブ数」で実行時に上書き可）
+parallel: true               # 複数タブを同時並行でスクロール（false で1タブずつ順次）
+keep_open: true              # 処理後もブラウザを閉じない（ヘッド表示時。アプリを閉じても残る）
+debug_port: 9333             # ブラウザ操作用のリモートデバッグポート（通常変更不要）
+
+browser:
+  headless: false            # 既定は表示。true でヘッドレス（バックグラウンド）実行
+  viewport:
+    width: 1280
+    height: 720
+  user_agent: ""             # 空なら Chromium 既定 UA
+
+scroll:
+  step_px: 600               # 1回の移動量(px)。要件の800pxから調整可
+  wait_ms: 800               # 1ステップ後の待機(ms)
+  settle_ms: 1200            # 末端到達後、遅延読み込み完了を待つ追加待機(ms)
+  stable_rounds: 6           # scrollHeight がこの回数連続で不変なら「最下部」と判定
+  max_steps: 200             # 安全上限（無限ループ防止）
+
+sites:
+  fchike:
+    name: "Fチケ マイシーズンシート"
+    start_url: "https://ticket.fighters.co.jp/ticket/season"
+    # 未ログイン判定: 「シーズンシート」タブ(完全一致)が見えていれば未ログイン。
+    # ※ログイン後は「マイシーズンシート」等があるため text-is(完全一致) が必須
+    login_required_selector: "button:text-is('シーズンシート')"
+    # ログイン後に到達すべきページ（start_url と同じなら遷移はスキップ）
+    target_url: "https://ticket.fighters.co.jp/ticket/season"
+    # ログイン成功確認（任意・空可）。ヘッダの「〇〇 さん」表示で判定
+    success_selector: "text=さん"
+    # ログイン手順（宣言的ステップ列）。value_from は .env のキー名を参照。
+    # 未ログイン時はモーダルが既に開いているので、先に「ログイン」を押す必要はない。
+    login_steps:
+      - { action: click,    selector: "button:text-is('シーズンシート')" }
+      # お客様コード欄は type 属性が無い（既定text）ため、type=password以外の可視inputを指定
+      - { action: fill,     selector: "input:not([type='password']):visible", value_from: LOGIN_ID }
+      - { action: fill,     selector: "input[type='password']:visible",       value_from: LOGIN_PASSWORD }
+      - { action: click,    selector: "button:text-is('ログイン')" }
+      # 成功確認は success_selector に一本化（誤認証時は分かりやすいメッセージを表示）

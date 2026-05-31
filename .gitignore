@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# ビルド生成物
+dist/
+build/_pyi_work/
+build/browser/
+build/_devtest_*.py
+build/_devtest_*.json
+
+# 同梱Chromium(巨大・CIで都度DL)
+browser/
+
+# ユーザーデータ・機密（コミットしない）
+.env
+profiles/
+logs/
+chrome_profile/
+
+# 録画・キャプチャ・大容量
+rec_frames/
+rec_check/
+*.mov
+*.mp4
+.playwright-mcp/
+
+# OS
+.DS_Store

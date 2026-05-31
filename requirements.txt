@@ -1,0 +1,5 @@
+playwright==1.49.1
+python-dotenv==1.0.1
+PyYAML==6.0.2
+# 開発(ビルド)時のみ
+pyinstaller==6.11.1
