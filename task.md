@@ -181,3 +181,30 @@ Phase 1 のスクロール処理を、一般事務スタッフがダブルクリ
 ## Phase 2 ステータス: 機能実装・検証完了。残は任意（アイコン/コード署名/公証、スケジュール実行等）。
 ビルド: mac=`bash build/make_listbot_mac.sh` / Win=GitHub Actions。
 開発実行: `python -m listbot.main`。CLI: --paths/--set-cred/--group/--capture。
+
+---
+
+# Phase 2 完了サマリ（2026-06-01）
+
+## リポジトリ / コミット
+- GitHub: https://github.com/yugen0203/Fchike-ScrollBot （PUBLIC）
+- コミット: `6d4a81c Phase 2: 出品Bot（ListBot）`（21ファイル/+2,357行）→ main に push 済み
+
+## 実用テスト結果（製品コード ListingRunner・並行・確認モード）
+- 範囲 9/15〜9/20 を解析 → 対象 [9/15,9/17,9/19,9/20] を 4タブ並行
+- 9/15・9/19・9/20=未出品席なしでスキップ / 9/17=未出品2席 → [2連番:5,6]→¥6,900→バラ売り不可→STEP3停止
+- 誤出品なし（確認モード）
+
+## 配布物
+- Windows: GitHub Actions「Build Windows EXE」の Artifacts → `ScrollBot-Windows.zip` / `ListBot-Windows.zip`
+  - Actions: https://github.com/yugen0203/Fchike-ScrollBot/actions/workflows/windows-build.yml
+  - （安定リンク用に Release も作成。Releases: https://github.com/yugen0203/Fchike-ScrollBot/releases ）
+- mac: `dist/出品Bot.app` / `dist/ListBot/`（`bash build/make_listbot_mac.sh`）
+
+## 連番ルールの設定場所
+- GUI: 「連続席はまとめて連番出品」/「最大席数で分割」+最大席数+端数
+- config_listbot.yml の `grouping:`（mode / max_group_size / remainder / partition_overrides / single_as_bara_ok）
+
+## 安全運用メモ
+- 既定フル自動＝実出品確定。テストは確認モードON、または出品後に手動キャンセル（テスト可: 9/17 18:00）。
+- サイトUI変更時は config_listbot.yml の sites.fchike.listing を修正（`--capture` で実DOM再取得）。
