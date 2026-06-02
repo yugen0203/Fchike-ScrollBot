@@ -107,6 +107,34 @@ php -S localhost:8000
 
 ---
 
+## Cloudflare Pages へのプレビューデプロイ（静的のみ）
+
+Cloudflare Pages は **PHPを実行しません**。そのため Pages では
+「お問い合わせ／管理画面／CMSプロキシ」は動かず、**見た目（静的ページ）の確認用**になります。
+（同梱の `_redirects` で、PHP系パスはソースが見えないよう退避し、`/contact.php` は
+`contact-preview.html` を表示します。）
+
+### 方法A: ダッシュボードでGit連携（トークン不要・おすすめ）
+1. Cloudflare ダッシュボード → **Workers & Pages → Create → Pages → Connect to Git**
+2. リポジトリ `yugen0203/Fchike-ScrollBot` と対象ブランチを選択
+3. ビルド設定:
+   - Framework preset: **None**
+   - Build command: **空欄**
+   - Build output directory: **`website`**
+4. Save and Deploy → `https://＜project＞.pages.dev` が発行される
+
+### 方法B: CLI（wrangler）でデプロイ
+```bash
+# 要: Cloudflare APIトークン（権限: Account → Cloudflare Pages: Edit）
+export CLOUDFLARE_API_TOKEN=＜トークン＞
+export CLOUDFLARE_ACCOUNT_ID=＜アカウントID＞
+npx wrangler pages deploy website --project-name=rion-lab-preview --branch=preview
+```
+
+> 本番（フォーム・管理画面込み）は Xサーバー（PHP）へ。Pages はあくまで静的プレビュー用です。
+
+---
+
 ## 確定情報への差し替え（要対応）
 
 HTML内の `〔要確認〕` は仮の表記です。確定後に差し替えてください。
