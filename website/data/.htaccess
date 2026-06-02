@@ -1,0 +1,7 @@
+# SQLite データベース等への直接アクセスを禁止（Apache / Xサーバー）
+Require all denied
+# 古いApache(2.2)向けフォールバック
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+</IfModule>

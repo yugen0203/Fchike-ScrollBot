@@ -1,0 +1,6 @@
+# 機密・実行時生成ファイルはコミットしない
+admin/config.php
+api/cms.config.php
+data/*.sqlite
+data/*.sqlite-wal
+data/*.sqlite-shm
