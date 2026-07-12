@@ -61,7 +61,10 @@ class Session:
         width = int(b["viewport"]["width"])
         height = int(b["viewport"]["height"])
 
-        self._p = sync_playwright().start()
+        try:
+            self._p = sync_playwright().start()
+        except Exception as e:
+            raise LoginError(paths.diagnose_playwright(e))
         exe = self._p.chromium.executable_path
 
         self._reused = bl.port_alive(port)

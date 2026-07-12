@@ -43,7 +43,10 @@ class ScrollBot:
         width = int(b["viewport"]["width"])
         height = int(b["viewport"]["height"])
 
-        p = sync_playwright().start()
+        try:
+            p = sync_playwright().start()
+        except Exception as e:
+            raise LoginError(paths.diagnose_playwright(e))
         proc = None
         browser = None
         try:

@@ -112,6 +112,51 @@ def ensure_valid_std_streams() -> None:
             pass  # 最悪でも起動は続行
 
 
+def diagnose_playwright(err: Exception) -> str:
+    """sync_playwright().start() が失敗したとき、同梱 node.exe を直接実行して
+    本当の失敗理由(欠落DLL・ブロック・JSエラー等)を取得し、ログに残して返す。
+    windowed ビルドでは node の stderr が見えないため、この直接実行が唯一の手がかり。"""
+    import subprocess
+    import traceback
+
+    lines = [f"Playwright起動エラー: {err!r}", ""]
+    try:
+        from playwright._impl._driver import compute_driver_executable, get_driver_env
+        node, cli = compute_driver_executable()
+        lines.append(f"node   : {node} (exists={os.path.exists(node)})")
+        lines.append(f"cli.js : {cli} (exists={os.path.exists(cli)})")
+        lines.append(f"browsers_path: {os.environ.get('PLAYWRIGHT_BROWSERS_PATH')}")
+        lines.append("")
+        try:
+            flags = 0x08000000 if sys.platform.startswith("win") else 0  # CREATE_NO_WINDOW
+            cp = subprocess.run(
+                [node, cli, "--version"],
+                capture_output=True, text=True, timeout=30,
+                env=get_driver_env(), creationflags=flags,
+            )
+            lines.append(f"node直接実行 returncode={cp.returncode}")
+            lines.append(f"stdout: {cp.stdout.strip()}")
+            lines.append(f"stderr: {cp.stderr.strip()}")
+        except Exception as e2:
+            lines.append(f"node直接実行に失敗: {e2!r}")
+    except Exception as e3:
+        lines.append(f"診断中に別エラー: {e3!r}")
+    lines += ["", traceback.format_exc()]
+    report = "\n".join(lines)
+
+    log_path = None
+    try:
+        logs_dir().mkdir(parents=True, exist_ok=True)
+        log_path = logs_dir() / "playwright_diagnose.txt"
+        log_path.write_text(report, encoding="utf-8")
+    except Exception:
+        pass
+    head = report[:500]
+    if log_path:
+        head += f"\n\n詳細ログ: {log_path}"
+    return head
+
+
 def configure_playwright_browsers_path() -> None:
     """同梱Chromium を使うよう環境変数を設定。Playwright import/起動より前に呼ぶこと。"""
     ensure_valid_std_streams()
