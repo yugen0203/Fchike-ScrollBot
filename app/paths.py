@@ -91,8 +91,31 @@ def browser_dir() -> Path:
     return _project_root() / "build" / "browser"
 
 
+def ensure_valid_std_streams() -> None:
+    """Windowsの windowed(コンソール無し)ビルドでは sys.stdout/stderr が None になり、
+    Playwright の node ドライバが無効な stderr を継承して即終了する
+    (→ 'PlaywrightContextManager' object has no attribute '_playwright')。
+    実ファイルへ差し替えて有効な fd を与えることで回避する。"""
+    if not is_frozen():
+        return
+    for name in ("stdin", "stdout", "stderr"):
+        stream = getattr(sys, name, None)
+        try:
+            if stream is not None and stream.fileno() >= 0:
+                continue  # 有効なストリームがある
+        except (OSError, ValueError, AttributeError):
+            pass  # fileno が無効 → 差し替え対象
+        try:
+            logs_dir().mkdir(parents=True, exist_ok=True)
+            target = os.devnull if name == "stdin" else str(logs_dir() / "frozen_std.log")
+            setattr(sys, name, open(target, "r" if name == "stdin" else "a", encoding="utf-8"))
+        except Exception:
+            pass  # 最悪でも起動は続行
+
+
 def configure_playwright_browsers_path() -> None:
     """同梱Chromium を使うよう環境変数を設定。Playwright import/起動より前に呼ぶこと。"""
+    ensure_valid_std_streams()
     bdir = browser_dir()
     if bdir.exists():
         os.environ["PLAYWRIGHT_BROWSERS_PATH"] = str(bdir)
