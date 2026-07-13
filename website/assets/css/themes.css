@@ -1,0 +1,119 @@
+/* =====================================================================
+   Rion Lab Japan — themes.css
+   曜日替わりテーマ。<html data-theme="mon|tue|wed|thu|fri"> に応じて
+   配色・書体・形状言語を切り替える。土日は theme.js が fri を付与。
+   フォント: 共通=Noto Sans JP / 表示用=Outfit, Zen Maru Gothic, Zen Old Mincho
+   ===================================================================== */
+
+:root {
+  --font-body: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* デフォルト（テーマ未適用時）は月曜にフォールバック */
+}
+
+/* ===== 月 Monday — "Fresh Start" : ブルー / クリーン / シャープ ====== */
+[data-theme="mon"] {
+  --bg:#f6f9fe; --bg-alt:#ffffff; --surface:#ffffff;
+  --text:#1f2733; --text-muted:#5a6675; --heading:#10243f;
+  --border:#e3eaf4; --border-strong:#c4d2e6;
+  --primary:#1f6dff; --on-primary:#ffffff;
+  --primary-soft:#e6efff; --primary-shadow:rgba(31,109,255,.45);
+  --brand-gradient:linear-gradient(120deg,#1f6dff,#36c6ff);
+  --footer-bg:#0c1a30; --footer-text:#dce6f5;
+  --font-display:"Outfit", var(--font-body);
+  --display-tracking:-.015em; --hero-weight:800; --display-weight:700;
+  --card-radius:8px; --btn-radius:8px; --field-radius:8px; --icon-radius:8px; --mark-radius:8px;
+}
+[data-theme="mon"] .eyebrow { text-transform:uppercase; }
+
+/* ===== 火 Tuesday — "Momentum" : コーラル / エネルギッシュ / 斜め === */
+[data-theme="tue"] {
+  --bg:#fffaf6; --bg-alt:#fff3ec; --surface:#ffffff;
+  --text:#2b1f1a; --text-muted:#7a6258; --heading:#3a1d10;
+  --border:#f6e2d6; --border-strong:#f0c3aa;
+  --primary:#ff5a36; --on-primary:#ffffff;
+  --primary-soft:#ffe7df; --primary-shadow:rgba(255,90,54,.45);
+  --brand-gradient:linear-gradient(120deg,#ff7a18,#ff3d6e);
+  --footer-bg:#2a140c; --footer-text:#f7dccf;
+  --font-display:"Outfit", var(--font-body);
+  --display-tracking:-.02em; --hero-weight:800; --display-weight:800;
+  --card-radius:4px 18px 4px 18px; --btn-radius:999px; --field-radius:10px; --icon-radius:4px 14px; --mark-radius:4px 12px;
+}
+[data-theme="tue"] .hero__title { font-style:normal; transform: skewX(-2deg); transform-origin:left; }
+[data-theme="tue"] .card__icon { transform: rotate(-4deg); }
+
+/* ===== 水 Wednesday — "Flow" : ティール / 自然 / 曲線 =============== */
+[data-theme="wed"] {
+  --bg:#f3fbf8; --bg-alt:#e9f7f1; --surface:#ffffff;
+  --text:#16302a; --text-muted:#4c6b62; --heading:#0c3a31;
+  --border:#d6ece4; --border-strong:#aedccd;
+  --primary:#0fae8b; --on-primary:#ffffff;
+  --primary-soft:#d6f4ec; --primary-shadow:rgba(15,174,139,.42);
+  --brand-gradient:linear-gradient(120deg,#11b58c,#4dd0a5 60%,#7fe3c0);
+  --footer-bg:#0a2b25; --footer-text:#d3efe7;
+  --font-display:"Zen Maru Gothic", var(--font-body);
+  --display-tracking:.01em; --hero-weight:700; --display-weight:700;
+  --card-radius:24px; --btn-radius:999px; --field-radius:18px; --icon-radius:50%; --mark-radius:50% 50% 50% 12px;
+}
+
+/* ===== 木 Thursday — "Trust" : ネイビー / ゴールド / 端正 ========== */
+[data-theme="thu"] {
+  --bg:#fbfaf6; --bg-alt:#11203c; --surface:#ffffff;
+  --text:#22262e; --text-muted:#5d6470; --heading:#15233f;
+  --border:#e7e3d6; --border-strong:#cdc4a8;
+  --primary:#b8893b; --on-primary:#ffffff;
+  --primary-soft:#f3ead6; --primary-shadow:rgba(184,137,59,.4);
+  --brand-gradient:linear-gradient(120deg,#1b2c4d,#3b5a8c);
+  --footer-bg:#0e1a30; --footer-text:#e7dfca;
+  --font-display:"Zen Old Mincho", serif;
+  --display-tracking:.005em; --hero-weight:700; --display-weight:600;
+  --card-radius:2px; --btn-radius:2px; --field-radius:2px; --icon-radius:2px; --mark-radius:2px;
+}
+/* 木曜は alt セクションを濃紺の反転に */
+[data-theme="thu"] .section--alt { color:#eef1f7; }
+[data-theme="thu"] .section--alt .section-title,
+[data-theme="thu"] .section--alt .card__title { color:#fff; }
+[data-theme="thu"] .section--alt .card { background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.12); }
+[data-theme="thu"] .section--alt .card__text,
+[data-theme="thu"] .section--alt .lead { color:#b9c4d8; }
+[data-theme="thu"] .eyebrow { text-transform:uppercase; letter-spacing:.3em; }
+
+/* ===== 金 Spark — "Creative" : パープル / 華やか / 幾何学（土日も） == */
+[data-theme="fri"] {
+  --bg:#fbf7ff; --bg-alt:#f4ecff; --surface:#ffffff;
+  --text:#241a33; --text-muted:#665a78; --heading:#2a103f;
+  --border:#ebe0f7; --border-strong:#d2bdf0;
+  --primary:#8b2fe6; --on-primary:#ffffff;
+  --primary-soft:#f0e3ff; --primary-shadow:rgba(139,47,230,.45);
+  --brand-gradient:linear-gradient(120deg,#7b2ff7,#d72f9f 55%,#ff7eb3);
+  --footer-bg:#1c0a33; --footer-text:#ecdcff;
+  --font-display:"Outfit", var(--font-body);
+  --display-tracking:-.01em; --hero-weight:800; --display-weight:700;
+  --card-radius:20px; --btn-radius:999px; --field-radius:14px; --icon-radius:16px; --mark-radius:16px;
+}
+[data-theme="fri"] .hero__title .accent { background:var(--brand-gradient); -webkit-background-clip:text; background-clip:text; color:transparent; }
+
+/* ---- 各テーマでヒーロー背景に控えめなパターン ---------------------- */
+.hero::before, .page-hero::before {
+  content:""; position:absolute; inset:0; z-index:-1; opacity:.5; pointer-events:none;
+}
+[data-theme="mon"] .hero::before, [data-theme="mon"] .page-hero::before {
+  background-image: linear-gradient(var(--primary-soft) 1px, transparent 1px),
+                    linear-gradient(90deg, var(--primary-soft) 1px, transparent 1px);
+  background-size: 44px 44px; mask-image: radial-gradient(circle at 80% 20%, #000, transparent 70%);
+}
+[data-theme="tue"] .hero::before, [data-theme="tue"] .page-hero::before {
+  background-image: repeating-linear-gradient(135deg, var(--primary-soft) 0 14px, transparent 14px 42px);
+}
+[data-theme="wed"] .hero::before, [data-theme="wed"] .page-hero::before {
+  background-image: radial-gradient(closest-side, var(--primary-soft), transparent);
+  background-size: 60% 60%; background-position: 90% 0; background-repeat:no-repeat;
+}
+[data-theme="thu"] .hero::before, [data-theme="thu"] .page-hero::before {
+  background-image: linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 90px 100%; opacity:.6;
+}
+[data-theme="fri"] .hero::before, [data-theme="fri"] .page-hero::before {
+  background:
+    radial-gradient(circle at 85% 15%, color-mix(in srgb,var(--primary) 22%, transparent), transparent 45%),
+    radial-gradient(circle at 10% 90%, color-mix(in srgb,#ff7eb3 28%, transparent), transparent 45%);
+}

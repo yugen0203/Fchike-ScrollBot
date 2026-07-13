@@ -1,0 +1,7 @@
+# Cloudflare Pages 用ルーティング（プレビュー時のPHPソース露出を防ぐ）
+# Pages は PHP を実行しないため、動的パスは案内ページ/トップへ退避させる。
+/contact.php    /contact-preview.html   200
+/admin          /                        302
+/admin/*        /                        302
+/api/*          /                        302
+/lib/*          /                        302

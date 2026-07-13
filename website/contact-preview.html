@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お問い合わせ（プレビュー）｜株式会社Rion Lab Japan</title>
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Outfit:wght@500;600;700;800&family=Zen+Maru+Gothic:wght@500;700&family=Zen+Old+Mincho:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/themes.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <script src="assets/js/theme.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav container" aria-label="グローバルナビ">
+      <a class="brand" href="index.html">
+        <span class="brand__mark"><i class="fa-solid fa-flask"></i></span>
+        <span class="brand__name">Rion Lab Japan<small>ITプロダクトのトータルサポート</small></span>
+      </a>
+      <button class="nav__toggle" aria-label="メニュー" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+      <ul class="nav__links">
+        <li><a href="index.html">ホーム</a></li>
+        <li><a href="services.html">サービス</a></li>
+        <li><a href="company.html">会社情報</a></li>
+        <li><a href="https://dx-lab.rion-lab-japan.com/" target="_blank" rel="noopener">DX研修ラボ</a></li>
+        <li><a class="btn btn--primary nav__cta" href="contact-preview.html" aria-current="page"><i class="fa-regular fa-envelope"></i> お問い合わせ</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p class="breadcrumb"><a href="index.html">ホーム</a> / お問い合わせ</p>
+        <h1>Contact</h1>
+        <p>ご相談・お見積り・採用・協業など、お気軽にお問い合わせください。</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container" style="max-width:760px">
+        <div class="alert alert--ok" role="note" style="margin-bottom:1.5rem">
+          <strong>これはデザインプレビューです。</strong> 送信機能（PHP）は本番サーバー（Xサーバー）の <code>contact.php</code> で動作します。プレビューでは送信できません。
+        </div>
+
+        <form class="form" onsubmit="event.preventDefault();alert('プレビューのため送信は無効です。本番ではPHPで送信されます。');">
+          <div class="field">
+            <label for="name">お名前 <span class="req">必須</span></label>
+            <input id="name" type="text">
+          </div>
+          <div class="field">
+            <label for="company">会社名・団体名</label>
+            <input id="company" type="text">
+          </div>
+          <div class="field">
+            <label for="email">メールアドレス <span class="req">必須</span></label>
+            <input id="email" type="email">
+          </div>
+          <div class="field">
+            <label for="phone">電話番号</label>
+            <input id="phone" type="tel">
+          </div>
+          <div class="field">
+            <label for="category">お問い合わせ種別</label>
+            <select id="category">
+              <option value="">選択してください</option>
+              <option>アプリ開発</option><option>Web制作・開発</option><option>バックエンド開発</option>
+              <option>QC・品質管理</option><option>営業資料作成</option><option>SNS運用</option>
+              <option>動画制作</option><option>DX研修</option><option>採用・協業</option><option>その他</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="message">お問い合わせ内容 <span class="req">必須</span></label>
+            <textarea id="message"></textarea>
+          </div>
+          <div class="field field--check">
+            <input id="agree" type="checkbox">
+            <label for="agree">個人情報を、お問い合わせ対応の目的に限り利用することに同意します。<span class="req">必須</span></label>
+          </div>
+          <div>
+            <button class="btn btn--primary" type="submit"><i class="fa-solid fa-paper-plane"></i> 送信する（プレビュー無効）</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer__bottom" style="border:0">
+        <span>© 2026 株式会社Rion Lab Japan</span>
+        <span>名古屋 / 川口 / ベトナム・ダナン</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="day-badge" data-day-badge aria-hidden="true"></div>
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
